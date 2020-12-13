@@ -1,8 +1,10 @@
 fun main(){
 
-    val list = mutableListOf<Int>(99,8,3,9,2)
+    val list = mutableListOf(99,8,3,9,2)
     BubbleSortDemo().sort(list, BubbleSortDemo.SortingOrder.Asc)
     BubbleSortDemo().sort(list, BubbleSortDemo.SortingOrder.Dsc)
+
+    BubbleSortDemo().sortWithDoWhile(list)
 }
 
 class BubbleSortDemo {
@@ -10,6 +12,29 @@ class BubbleSortDemo {
     sealed class SortingOrder{
         object Asc : SortingOrder()
         object Dsc : SortingOrder()
+    }
+
+    fun sortWithDoWhile(list : MutableList<Int>){
+
+        var swapped : Boolean
+
+        do{
+            swapped = false
+
+            for(i in 0 until list.size -1){
+
+                if(list[i] > list[i+1]){
+                    //swap
+                    val temp = list[i]
+                    list[i] = list[i+1]
+                    list[i+1] = temp
+                    swapped = true
+                }
+            }
+        }
+        while (swapped)
+
+        println("sorted list in doWhile : $list")
     }
 
     fun sort(list: MutableList<Int>, sortingOrder: SortingOrder) {
