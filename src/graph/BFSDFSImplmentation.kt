@@ -1,6 +1,7 @@
 package graph
 
 import java.util.*
+import kotlin.collections.HashSet
 
 class Graph(v : Int){
 
@@ -11,6 +12,48 @@ class Graph(v : Int){
     fun addEdge(source : Int, destination : Int){
         adj[source].add(destination)
         adj[destination].add(source)
+    }
+
+    //find distance
+    fun bfs(source: Int, destination: Int) : Int{
+
+        val set = HashSet<Int>()
+        val queue = LinkedList<Int>()
+        val parent = IntArray(adj.size)
+
+        set.add(source)
+        queue.offer(source)
+        parent[source] = -1
+
+        while(queue.isNotEmpty()){
+
+            val cur = queue.poll()
+            if(cur == destination) break
+            println("Op : $cur")
+            val linkedList : LinkedList<Int> = adj[cur]
+
+            for(node in linkedList){
+                if(!set.contains(node)){
+                    set.add(node)
+                    queue.offer(node)
+                    parent[node] =  cur
+                }
+            }
+        }
+
+        parent.forEachIndexed { index, i ->
+            println("index $index -> $i")
+        }
+        //distance calculation
+        var cur = destination
+        var distance = 0
+        while(parent[cur] != -1){
+            cur = parent[cur]
+            println("cur : $cur")
+            distance++
+        }
+
+        return distance
     }
 
     fun dfs(source: Int, destination: Int) : Boolean{
@@ -57,11 +100,17 @@ fun main(){
     }
 
     println("Please enter source /*and destination:*/")
-    val s = sc.nextInt()
-    //val d = sc.nextInt()
+    //val s1 = sc.nextInt()
+    //val d2 = sc.nextInt()
+    //val b = graph.dfs(s1,d2)
 
-    //val b = graph.dfs(s,d)
-    val b = graph.dfsThrough(s)
+    //val s2 = sc.nextInt()
+    //val b = graph.dfsThrough(s2)
+
+    val s3 = sc.nextInt()
+    val d3 = sc.nextInt()
+    val b = graph.bfs(s3,d3)
+
     println("$b")
 
 }
